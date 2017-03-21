@@ -15,6 +15,19 @@ While this validation is great, there is a method provided by Rails called `#tit
 ```ruby
 # post.rb
 
+class Post < ActiveRecord::Base
+ 
+  belongs_to :author
+  validate :is_title_case 
+ 
+  private
+ 
+  def is_title_case
+    if title.split.any?{|w|w[0].upcase != w[0]}
+      errors.add(:title, "Title must be in title case")
+    end
+  end
+	
   def make_title_case
     self.title = self.title.titlecase
   end
@@ -120,3 +133,5 @@ Before you move on, let's cover one last callback that is super useful. This one
 For more information on all of the callbacks available to you, check out [this amazing rails guide](http://guides.rubyonrails.org/active_record_callbacks.html).
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/activerecord-lifecycle-reading'>ActiveRecord Lifecycle Methods</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/activerecord-lifecycle-reading'>ActiveRecord Lifecycle Methods</a> on Learn.co and start learning to code for free.</p>
